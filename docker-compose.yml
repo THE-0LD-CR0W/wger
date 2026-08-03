@@ -33,13 +33,6 @@ services:
       retries: 5
     restart: unless-stopped
 
-  powersync:
-    depends_on:
-      db:
-        condition: service_healthy
-      web:
-        condition: service_healthy
-
   nginx:
     image: docker.io/nginx:stable
     logging:
@@ -63,6 +56,9 @@ services:
       retries: 5
       start_period: 30s
     restart: unless-stopped
+    networks:
+      - default
+      - proxy
 
   db:
     shm_size: 256mb
@@ -137,7 +133,8 @@ volumes:
 
 networks:
   default:
-    name: wger_network
+  proxy:
+    external: true
 
 include:
   - path: ./services/postgres.yaml
