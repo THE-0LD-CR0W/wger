@@ -35,6 +35,7 @@ services:
 
   nginx:
     image: docker.io/nginx:stable
+    container_name: wger-nginx
     logging:
       driver: json-file
       options:
